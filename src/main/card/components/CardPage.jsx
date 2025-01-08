@@ -144,8 +144,8 @@ const CardPage = () => {
         capitalizeFirstLetter(selectedCard.accountType) +
           " card status updated successfully"
       );
-      if (status === "FROZEN")
-        SnackbarUtils.info("All associated cards have been frozen as well.");
+      // if (status === "FROZEN")
+      //   SnackbarUtils.info("All associated cards have been frozen as well.");
     }
     handleMenuClose();
   };

@@ -3,6 +3,8 @@ import SnackbarUtils from "../../../utils/SnackbarUtils";
 
 class SignUpService {
   async register(obj) {
+    console.log(obj);
+
     const response = await fetchService.request(
       `api/v1/idm/register`,
       {

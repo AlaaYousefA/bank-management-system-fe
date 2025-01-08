@@ -59,6 +59,12 @@ const ProfileModal = ({ open, handleClose }) => {
       return;
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(editableInfo.email)) {
+      SnackbarUtils.error("Please enter a valid email address.");
+      return;
+    }
+
     if (editableInfo.dateOfBirth) {
       const today = new Date();
       const birthDate = new Date(editableInfo.dateOfBirth);

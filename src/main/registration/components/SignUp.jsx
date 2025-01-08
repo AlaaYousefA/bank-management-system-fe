@@ -15,6 +15,7 @@ import { Colors } from "../../../theme/Colors";
 import Logo from "../../../components/Logo";
 import { useNavigate } from "react-router-dom";
 import signUpService from "../services/SignUpService";
+import SnackbarUtils from "../../../utils/SnackbarUtils";
 
 const signUpStyles = {
   container: {
@@ -73,7 +74,6 @@ const SignUp = () => {
     nationality: null,
     nationalId: "",
     dateOfBirth: "",
-    city: "",
     address: "",
   });
 
@@ -115,7 +115,6 @@ const SignUp = () => {
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
 
-    // Validate the field on change
     const errorMessage = validateField(field, value);
     setErrors({ ...errors, [field]: errorMessage });
   };
@@ -129,10 +128,12 @@ const SignUp = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+
       return;
     }
 
     await signUpService.register(formData);
+    SnackbarUtils.success("Registered successfully!");
     navigate("/login");
   };
 
@@ -214,7 +215,7 @@ const SignUp = () => {
                 <div style={{ display: "flex", alignItems: "center" }}>
                   <img
                     src={`https://flagcdn.com/w40/${country.value.toLowerCase()}.png`}
-                    alt=""
+                    alt={country.label}
                     style={{ marginRight: 10, width: 20, height: 15 }}
                   />
                   {country.label}
@@ -231,10 +232,26 @@ const SignUp = () => {
                 borderColor: Colors.primary,
                 borderRadius: 4,
                 height: 56,
+                backgroundColor: "white",
+              }),
+              menu: (base) => ({
+                ...base,
+                backgroundColor: "white",
+                zIndex: 10,
+              }),
+              option: (base, state) => ({
+                ...base,
+                backgroundColor: state.isFocused
+                  ? Colors.primaryLight
+                  : "white",
+                color: state.isFocused ? Colors.primary : "black",
+                display: "flex",
+                alignItems: "center",
               }),
             }}
             placeholder="Select nationality"
           />
+
           {errors.nationality && (
             <Typography color="error">{errors.nationality}</Typography>
           )}

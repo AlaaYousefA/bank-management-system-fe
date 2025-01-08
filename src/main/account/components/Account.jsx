@@ -81,18 +81,15 @@ const Account = () => {
         );
         return;
       }
-      try {
-        await accountService.updateAccountStatus(selectedAccount.id, status);
-        setRefresh((prev) => prev + 1);
-        SnackbarUtils.success(
-          capitalizeFirstLetter(selectedAccount.accountType) +
-            " Account status updated successfully"
-        );
-        if (status === "FROZEN")
-          SnackbarUtils.info("All associated cards have been frozen as well.");
-      } catch (error) {
-        console.error("Error updating account status:", error);
-      }
+
+      await accountService.updateAccountStatus(selectedAccount.id, status);
+      setRefresh((prev) => prev + 1);
+      SnackbarUtils.success(
+        capitalizeFirstLetter(selectedAccount.accountType) +
+          " Account status updated successfully"
+      );
+      if (status === "FROZEN" && selectedAccount.accountType === "PRIMARY")
+        SnackbarUtils.info("All associated cards have been frozen as well.");
     }
     handleMenuClose();
   };

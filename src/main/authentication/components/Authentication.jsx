@@ -10,7 +10,11 @@ import {
   Divider,
   createTheme,
   ThemeProvider,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Logo from "../../../components/Logo";
 import { Colors } from "../../../theme/Colors";
 import "@fontsource/poppins";
@@ -92,10 +96,15 @@ const Authentication = () => {
     password: "",
     otp: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCredentials((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const handleLogin = async () => {
@@ -159,11 +168,23 @@ const Authentication = () => {
                   fullWidth
                   label="Password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={credentials.password}
                   onChange={handleInputChange}
                   variant="outlined"
                   required
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={togglePasswordVisibility}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
                 <Button fullWidth sx={authStyles.button} onClick={handleLogin}>
                   Next
